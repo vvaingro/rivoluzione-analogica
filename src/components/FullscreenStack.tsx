@@ -41,7 +41,7 @@ function FullscreenFrame({ src, index }: { src: string; index: number }) {
                     src={src}
                     alt={`Photo ${index + 1}`}
                     fill
-                    className={`transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} ${isPortrait ? 'object-contain' : 'object-cover'}`}
+                    className={`transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} object-cover`}
                     sizes="100vw"
                     priority={index < 3}
                     onLoad={(e) => {
