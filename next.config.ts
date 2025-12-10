@@ -2,8 +2,13 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  // Ensure we can handle remote patterns if needed in future, currently empty as requested
   images: {
+    // Optimization to reduce Vercel cache usage and build time
+    // Default generates too many variations, we only need these key breakpoints
+    deviceSizes: [640, 1080, 1920],
+    imageSizes: [64, 128], // Only small variations needed
+    minimumCacheTTL: 60,
+
     remotePatterns: [],
     formats: ['image/avif', 'image/webp'],
   },
