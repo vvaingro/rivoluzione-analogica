@@ -5,6 +5,14 @@ import { usePathname } from "next/navigation"
 import { useTypewriter } from "@/hooks/useTypewriter"
 import { useGallery } from "@/context/GalleryContext"
 import { useLayout } from "@/components/common/LayoutProvider"
+import { Menu } from "lucide-react"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button"
 
 export function Header() {
     const { displayedText } = useTypewriter({ text: "rivoluzione analogica" })
@@ -60,6 +68,31 @@ export function Header() {
                         About
                     </Link>
                 </nav>
+
+                {/* Mobile Navigation */}
+                <div className="md:hidden">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-8 w-8">
+                                <Menu className="h-5 w-5" />
+                                <span className="sr-only">Open menu</span>
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-[160px] bg-white dark:bg-black border border-black/10 dark:border-white/10 font-serif">
+                            <DropdownMenuItem onClick={() => setCollection('bnw')} className="cursor-pointer" style={{ fontFamily: '"Times New Roman", serif', fontVariant: 'small-caps' }}>
+                                Black & White
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => setCollection('default')} className="cursor-pointer" style={{ fontFamily: '"Times New Roman", serif', fontVariant: 'small-caps' }}>
+                                Color
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link href="/about" className="cursor-pointer w-full" style={{ fontFamily: '"Times New Roman", serif', fontVariant: 'small-caps' }}>
+                                    About
+                                </Link>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
             </div>
         </header>
     )

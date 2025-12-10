@@ -8,8 +8,8 @@ import { useLayout } from "./LayoutProvider"
 export function ControlsPanel() {
     const { showHeader, isMobile, isLandscape } = useLayout()
 
-    // Nascondi il toggle landscape/portrait su mobile portrait
-    const showLayoutToggle = !(isMobile && !isLandscape)
+    // Always show layout toggle, let the user decide
+    const showLayoutToggle = true
 
     return (
         <motion.div

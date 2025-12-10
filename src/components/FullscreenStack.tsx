@@ -23,7 +23,7 @@ function FullscreenFrame({ src, index }: { src: string; index: number }) {
     return (
         <motion.section
             ref={ref}
-            className="relative h-screen w-full overflow-hidden bg-white dark:bg-black"
+            className="relative h-[100dvh] w-full overflow-hidden bg-white dark:bg-black"
             style={{
                 scrollSnapAlign: 'start',
                 paddingTop: index === 0 ? '72px' : '0'
