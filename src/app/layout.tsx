@@ -19,6 +19,7 @@ import { Header } from "@/components/common/Header"
 import { ControlsPanel } from "@/components/common/ControlsPanel"
 import { ThemeTransitionProvider as ThemeTransitionWrapper } from "@/components/common/ThemeTransitionProvider"
 import { PageTransitionProvider } from "@/components/common/PageTransitionProvider"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata: Metadata = {
   title: "Rivoluzione Analogica – Portfolio",
@@ -63,6 +64,7 @@ export default function RootLayout({
                   {/* Global Rotation Wrapper handled via CSS classes in globals.css based on body attribute or class */}
                   <PageTransitionProvider>
                     {children}
+                    <SpeedInsights />
                   </PageTransitionProvider>
                 </main>
               </ThemeTransitionWrapper>
