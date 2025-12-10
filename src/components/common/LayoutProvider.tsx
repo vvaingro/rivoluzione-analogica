@@ -71,6 +71,17 @@ export function LayoutProvider({ children }: { children: React.ReactNode }) {
         return () => window.removeEventListener("scroll", handleScroll)
     }, [isMobile, isLandscape, lastScrollY])
 
+    useEffect(() => {
+        // Update body dataset for Global CSS to detect mode
+        let computedMode = 'laptop-landscape'
+        if (isMobile) {
+            computedMode = isLandscape ? 'mobile-landscape' : 'mobile-portrait'
+        } else {
+            computedMode = isLandscape ? 'laptop-landscape' : 'laptop-portrait'
+        }
+        document.body.dataset.layoutMode = computedMode
+    }, [isMobile, isLandscape])
+
     const toggleLayout = () => setIsLandscape((prev) => !prev)
 
     // Derive the specific mode

@@ -53,7 +53,14 @@ export default function RootLayout({
               <Header />
               <ControlsPanel />
               <ThemeTransitionWrapper>
-                <main className="flex min-h-screen flex-col">
+                <main className={`flex min-h-screen flex-col transition-all duration-500 ease-in-out ${
+                  // Logic for Forced Landscape Mode on Mobile
+                  // If we are on mobile AND layout is set to landscape, apply rotation
+                  // Check using CSS logic instead of JS state for smoother transition if possible, 
+                  // but here we rely on the class logic combined with checking width/height
+                  ''
+                  }`}>
+                  {/* Global Rotation Wrapper handled via CSS classes in globals.css based on body attribute or class */}
                   <PageTransitionProvider>
                     {children}
                   </PageTransitionProvider>
