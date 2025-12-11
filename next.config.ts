@@ -3,14 +3,13 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   images: {
-    // Optimization to reduce Vercel cache usage and build time
-    // Default generates too many variations, we only need these key breakpoints
-    deviceSizes: [640, 1080, 1920],
-    imageSizes: [64, 128], // Only small variations needed
+    // Vercel Resource Fix:
+    // We strictly serve "Master" AVIFs optimized by Lightroom.
+    // We disable Vercel's internal optimization to save costs and CPU.
+    unoptimized: true,
     minimumCacheTTL: 60,
 
     remotePatterns: [],
-    formats: ['image/avif', 'image/webp'],
   },
   async headers() {
     return [
