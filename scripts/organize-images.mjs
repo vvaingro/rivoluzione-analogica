@@ -86,11 +86,12 @@ async function organizeImages() {
                 // If it's not AVIF, convert it (optimization)
 
                 if (fileExt === '.avif') {
-                    // Move
+                    // Bypass re-compression for Master AVIFs
+                    // Use fs.rename (move) to preserve exact bits
                     await fs.rename(filePath, targetPath)
-                    console.log(`   ✅ Moved: ${file} -> ${orientation}/${targetFilename}`)
+                    console.log(`   📦 Preserved Master: ${file} -> ${orientation}/ (No re-compression)`)
                 } else {
-                    // Convert & Optimize
+                    // Convert & Optimize legacy formats (JPG/PNG)
                     await sharp(filePath)
                         .avif({ quality: CONFIG.quality, effort: CONFIG.effort })
                         .toFile(targetPath)
