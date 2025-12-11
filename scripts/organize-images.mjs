@@ -72,6 +72,15 @@ async function organizeImages() {
 
             try {
                 // 1. Analyze
+                const stats = await fs.stat(filePath)
+                const sizeMB = stats.size / (1024 * 1024)
+
+                // Warn if file is too heavy (> 2.5MB is a good threshold for "Giant")
+                if (sizeMB > 2.5) {
+                    console.warn(`   ⚠️  GIANT FILE DETECTED: ${file} is ${sizeMB.toFixed(2)}MB`)
+                    console.warn(`       -> Consider re-exporting from Lightroom (Long Edge 2500px, Quality 70)`)
+                }
+
                 const { orientation } = await analyzeImage(filePath)
 
                 // 2. Determine paths
