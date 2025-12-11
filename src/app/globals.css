@@ -130,20 +130,24 @@
   body[data-layout-mode="mobile-landscape"] #app-wrapper {
     transform: rotate(90deg);
     transform-origin: center center;
-    width: 100vh;
+    width: 100dvh;
     height: 100vw;
     position: fixed;
     top: 50%;
     left: 50%;
     /* Translate back to center after rotation and dimension swap */
-    margin-left: -50vh;
+    margin-left: -50dvh;
     margin-top: -50vw;
-    overflow-y: auto;
+    overflow-y: scroll;
+    /* Force scroll if needed, but usually hidden */
     overflow-x: hidden;
+    background-color: black;
+    /* Mask any sub-pixel gaps */
   }
 
   /* Hides scrollbars during rotation to prevent ugliness */
   body[data-layout-mode="mobile-landscape"] {
     overflow: hidden;
+    background-color: black;
   }
 }
