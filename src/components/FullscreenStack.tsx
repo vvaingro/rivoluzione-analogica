@@ -36,6 +36,7 @@ function FullscreenFrame({ src, index }: { src: string; index: number }) {
             <motion.div
                 className="absolute inset-0"
                 style={{ y }}
+                onContextMenu={(e) => e.preventDefault()}
             >
                 {/* Optimized implementation using standard img with srcset for manual art direction */}
                 <img
@@ -46,12 +47,16 @@ function FullscreenFrame({ src, index }: { src: string; index: number }) {
                     className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} ${(isMobile && isLandscape) || (!isMobile && isPortrait) ? 'object-contain' : 'object-cover'}`}
                     loading={index < 3 ? "eager" : "lazy"}
                     decoding="async"
+                    draggable={false}
+                    style={{ userSelect: 'none', WebkitUserSelect: 'none' }}
                     onLoad={(e) => {
                         setIsLoaded(true)
                         const img = e.target as HTMLImageElement
                         setIsPortrait(img.naturalHeight > img.naturalWidth)
                     }}
                 />
+                {/* Anti-Theft Shield: Transparent overlay to block long-press/drag interactions */}
+                <div className="absolute inset-0 z-10 bg-transparent" />
             </motion.div>
         </motion.section>
     )

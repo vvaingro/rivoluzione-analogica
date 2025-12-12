@@ -21,6 +21,9 @@ export function Header() {
 
     const pathname = usePathname()
 
+    // Configuration to easily toggle About page visibility
+    const ENABLE_ABOUT = false
+
     // Hide header on non-home pages
     if (pathname !== '/') return null
 
@@ -60,13 +63,15 @@ export function Header() {
                     >
                         Color
                     </button>
-                    <Link
-                        href="/about"
-                        className="text-[#111] dark:text-white/70 no-underline opacity-70 hover:opacity-100 transition-opacity text-[13px] tracking-[1px]"
-                        style={{ fontFamily: '"Times New Roman", serif', fontVariant: 'small-caps' }}
-                    >
-                        About
-                    </Link>
+                    {ENABLE_ABOUT && (
+                        <Link
+                            href="/about"
+                            className="text-[#111] dark:text-white/70 no-underline opacity-70 hover:opacity-100 transition-opacity text-[13px] tracking-[1px]"
+                            style={{ fontFamily: '"Times New Roman", serif', fontVariant: 'small-caps' }}
+                        >
+                            About
+                        </Link>
+                    )}
                 </nav>
 
                 {/* Mobile Navigation */}
@@ -85,11 +90,13 @@ export function Header() {
                             <DropdownMenuItem onClick={() => setCollection('default')} className="cursor-pointer" style={{ fontFamily: '"Times New Roman", serif', fontVariant: 'small-caps' }}>
                                 Color
                             </DropdownMenuItem>
-                            <DropdownMenuItem asChild>
-                                <Link href="/about" className="cursor-pointer w-full" style={{ fontFamily: '"Times New Roman", serif', fontVariant: 'small-caps' }}>
-                                    About
-                                </Link>
-                            </DropdownMenuItem>
+                            {ENABLE_ABOUT && (
+                                <DropdownMenuItem asChild>
+                                    <Link href="/about" className="cursor-pointer w-full" style={{ fontFamily: '"Times New Roman", serif', fontVariant: 'small-caps' }}>
+                                        About
+                                    </Link>
+                                </DropdownMenuItem>
+                            )}
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </div>

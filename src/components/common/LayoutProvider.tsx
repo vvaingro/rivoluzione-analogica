@@ -76,23 +76,68 @@ export function LayoutProvider({ children }: { children: React.ReactNode }) {
             return
         }
 
+        let lastScrollY = window.scrollY
+        let ticking = false
+        const HIDE_THRESHOLD = 100 // Pixel di scroll in giù prima di nascondere
+        const SHOW_THRESHOLD = 50  // Pixel di scroll in su prima di mostrare
+
         const handleScroll = () => {
-            const currentScrollY = window.scrollY
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const currentScrollY = window.scrollY
+                    const maxScroll = document.documentElement.scrollHeight - window.innerHeight
 
-            if (currentScrollY > lastScrollY && currentScrollY > 50) {
-                // Scrolling down - hide header
-                setShowHeader(false)
-            } else if (currentScrollY < lastScrollY) {
-                // Scrolling up - show header
-                setShowHeader(true)
+                    // Ignore rubber-banding (iOS)
+                    if (currentScrollY < 0 || currentScrollY > maxScroll) {
+                        ticking = false
+                        return
+                    }
+
+                    const diff = currentScrollY - lastScrollY
+
+                    // Logic with Hysteresis
+                    if (diff > HIDE_THRESHOLD && currentScrollY > 50) {
+                        // User scrapped down significantly -> Hide
+                        setShowHeader(false)
+                        lastScrollY = currentScrollY
+                    } else if (diff < -SHOW_THRESHOLD) {
+                        // User scrapped up significantly -> Show
+                        setShowHeader(true)
+                        lastScrollY = currentScrollY
+                    } else {
+                        // Minor movement, update ref point only if direction changed significantly
+                        // or keep anchor. For simplicity here we don't update anchor on small moves
+                        // to create the "dead zone" effect. 
+                        // Actually, to implement proper hysteresis, we usually track a "pivot" point.
+                        // Simplified approach: Just delay update of lastScrollY until threshold met?
+                        // No, let's keep it simple: 
+                        // If we are scrolling down, we want to hide.
+                        // If we are scrolling up, we want to show.
+                    }
+
+                    // Simple Hysteresis Implementation:
+                    // Reset 'lastScrollY' only when direction changes or threshold met.
+                    // This is complex to get perfect without a ref. 
+                    // Let's use a standard robust sticky header logic:
+
+                    if (currentScrollY > lastScrollY + 10) {
+                        // Scrolling DOWN
+                        if (currentScrollY > 100 && showHeader) setShowHeader(false)
+                    } else if (currentScrollY < lastScrollY - 20) {
+                        // Scrolling UP
+                        if (!showHeader) setShowHeader(true)
+                    }
+
+                    lastScrollY = currentScrollY
+                    ticking = false
+                })
+                ticking = true
             }
-
-            setLastScrollY(currentScrollY)
         }
 
         window.addEventListener("scroll", handleScroll, { passive: true })
         return () => window.removeEventListener("scroll", handleScroll)
-    }, [isMobile, isLandscape, lastScrollY])
+    }, [isMobile, isLandscape, showHeader]) // Added showHeader dependency for correct state read
 
     useEffect(() => {
         // Update body dataset for Global CSS to detect mode
