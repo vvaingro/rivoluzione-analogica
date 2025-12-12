@@ -35,6 +35,24 @@ export function LayoutProvider({ children }: { children: React.ReactNode }) {
         checkMobile()
         checkOrientation()
 
+        // Robust listener for orientation changes
+        const mediaQuery = window.matchMedia("(orientation: landscape)")
+        const handleOrientationChange = (e: MediaQueryListEvent) => {
+            setIsLandscape(e.matches)
+        }
+
+        // Modern browsers
+        try {
+            mediaQuery.addEventListener("change", handleOrientationChange)
+        } catch (e1) {
+            // Fallback for older Safari
+            try {
+                mediaQuery.addListener(handleOrientationChange)
+            } catch (e2) {
+                console.warn("Media Query listener not supported")
+            }
+        }
+
         window.addEventListener("resize", () => {
             checkMobile()
             checkOrientation()
@@ -43,6 +61,11 @@ export function LayoutProvider({ children }: { children: React.ReactNode }) {
         return () => {
             window.removeEventListener("resize", checkMobile)
             window.removeEventListener("resize", checkOrientation)
+            try {
+                mediaQuery.removeEventListener("change", handleOrientationChange)
+            } catch (e) {
+                mediaQuery.removeListener(handleOrientationChange)
+            }
         }
     }, [])
 

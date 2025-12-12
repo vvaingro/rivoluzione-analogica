@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import { useGallery } from "@/context/GalleryContext"
 import { useLayout } from "@/components/common/LayoutProvider"
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
-import Image from "next/image"
+
 
 function FullscreenFrame({ src, index }: { src: string; index: number }) {
     const ref = useRef<HTMLElement>(null)
@@ -37,13 +37,15 @@ function FullscreenFrame({ src, index }: { src: string; index: number }) {
                 className="absolute inset-0"
                 style={{ y }}
             >
-                <Image
+                {/* Optimized implementation using standard img with srcset for manual art direction */}
+                <img
                     src={src}
+                    srcSet={`${src.replace(/(\.[^.]+)$/, '_mobile$1')} 800w, ${src} 2000w`}
+                    sizes="(max-width: 768px) 100vw, 100vw"
                     alt={`Photo ${index + 1}`}
-                    fill
-                    className={`transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} ${(isMobile && isLandscape) || (!isMobile && isPortrait) ? 'object-contain' : 'object-cover'}`}
-                    sizes="100vw"
-                    priority={index < 3}
+                    className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} ${(isMobile && isLandscape) || (!isMobile && isPortrait) ? 'object-contain' : 'object-cover'}`}
+                    loading={index < 3 ? "eager" : "lazy"}
+                    decoding="async"
                     onLoad={(e) => {
                         setIsLoaded(true)
                         const img = e.target as HTMLImageElement
