@@ -1,4 +1,10 @@
 # Analog Revolution
+# 🎞️ RIVOLUZIONE ANALOGICA
+
+![Next.js Security](https://img.shields.io/badge/Security-Patched%20(CVE--2025--55184)-success)
+![Vercel](https://vercelbadge.vercel.app/api/vvaingro/rivoluzione-analogica)
+![Next.js](https://img.shields.io/badge/Next.js-16.0.10-black)
+![React](https://img.shields.io/badge/React-19.2.0-blue)
 
 A high-performance photography portfolio built with modern web technologies, focusing on intelligent image management and a premium user experience.
 
