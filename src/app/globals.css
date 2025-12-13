@@ -122,30 +122,3 @@
     @apply bg-background text-foreground;
   }
 }
-
-/* Rotation Logic for Mobile Landscape */
-@media (max-width: 768px) {
-
-  /* When "Virtual Landscape" is active, rotate the body content */
-  body[data-layout-mode="mobile-landscape"] #app-wrapper {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 100dvh;
-    height: 100vw;
-    /* Use translate for precision centering */
-    transform: translate(-50%, -50%) rotate(90deg);
-    transform-origin: center center;
-    overflow-y: scroll;
-    /* Force scroll if needed, but usually hidden */
-    overflow-x: hidden;
-    background-color: black;
-    /* Mask any sub-pixel gaps */
-  }
-
-  /* Hides scrollbars during rotation to prevent ugliness */
-  body[data-layout-mode="mobile-landscape"] {
-    overflow: hidden;
-    background-color: black;
-  }
-}

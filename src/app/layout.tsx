@@ -22,15 +22,47 @@ import { PageTransitionProvider } from "@/components/common/PageTransitionProvid
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata: Metadata = {
-  title: "Rivoluzione Analogica – Portfolio",
-  description: "Portfolio di fotografia analogica. Un viaggio attraverso la grana e la luce.",
+  metadataBase: new URL("https://analog-revolution.vercel.app"),
+  title: {
+    default: "Rivoluzione Analogica",
+    template: "%s | Rivoluzione Analogica",
+  },
+  description: "Rivoluzione Analogica - new worlds through old eyes",
+  keywords: ["Analog Photography", "Black & White", "Film Portfolio", "Fotografia Analogica", "Bianco e Nero"],
   openGraph: {
     title: "Rivoluzione Analogica",
-    description: "Portfolio di fotografia analogica.",
-    type: "website",
-    locale: "it_IT",
+    description: "Rivoluzione Analogica - new worlds through old eyes",
+    url: "https://analog-revolution.vercel.app", // Assuming Vercel deployment or env var, using hardcoded for now or NEXT_PUBLIC_SITE_URL if available
     siteName: "Rivoluzione Analogica",
+    images: [
+      {
+        url: "/images/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Rivoluzione Analogica Portfolio",
+      },
+    ],
+    locale: "it_IT",
+    type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Rivoluzione Analogica",
+    description: "Rivoluzione Analogica - new worlds through old eyes",
+    images: ["/images/og-image.jpg"],
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Rivoluzione Analogica",
+  url: "https://analog-revolution.vercel.app",
+  description: "Rivoluzione Analogica - new worlds through old eyes",
+  sameAs: [], // Add social links here if available
 };
 
 export default function RootLayout({
@@ -43,6 +75,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background text-foreground`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
